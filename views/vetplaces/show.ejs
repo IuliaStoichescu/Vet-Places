@@ -1,0 +1,41 @@
+<% layout('layout/boilerplate') %>
+   <div class="row">
+      <div class="col-6 offset-3">
+         <div class="row">
+            <div class="col">
+               <h1>
+                  <%= vetplace.name %>
+               </h1>
+               <p class="text-muted">Location: <%= vetplace.location %>
+               </p>
+               <img src="<%= vetplace.image %>" alt="Vet Place Image" style="max-height: 400px;"
+                  class="rounded float-start">
+            </div>
+         </div>
+         <div class="row mt-3">
+            <div class="col">
+               <p class="text">
+                  Consultation price : <%= vetplace.consultationPrice %> RON
+               </p>
+            </div>
+         </div>
+         <div class="row mt-1">
+            <p class="text">
+               Specialization : <%= String(vetplace.specialization).charAt(0).toUpperCase() +
+                  String(vetplace.specialization).slice(1) %>
+            </p>
+         </div>
+         <div class="row mt-3">
+            <div class="col">
+               <a class="btn btn-secondary" href="/vetplaces">Go Back</a>
+               <a class="btn btn-success" href="/vetplaces/<%=vetplace.id%>/edit">Edit</a>
+
+            </div>
+            <div class="col align-self-end ">
+               <form action="/vetplaces/<%=vetplace.id%>?_method=DELETE" method="post">
+                  <button class="btn btn-danger">Delete</button>
+               </form>
+            </div>
+         </div>
+      </div>
+   </div>

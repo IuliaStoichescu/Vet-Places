@@ -1,0 +1,75 @@
+<% layout('layout/boilerplate') %>
+   <div class="container">
+      <div class="row">
+         <h1 class="text-center">Add a new Vet Place!</h1>
+         <div class="col-6 offset-3">
+            <form action="/vetplaces" method="POST">
+               <div class="mb-3">
+                  <label for="name" class="form-label">Clinic Name:</label>
+                  <input type="text" id="name" name="name" class="form-control" required>
+               </div>
+
+               <div class="mb-3">
+                  <label for="location" class="form-label">Location:</label>
+                  <select id="location" class="form-select" name="location" required>
+                     <option value="">Select a city</option>
+                     <option value="București, Sector 1">București, Sector 1</option>
+                     <option value="București, Sector 2">București, Sector 2</option>
+                     <option value="București, Sector 3">București, Sector 3</option>
+                     <option value="București, Sector 4">București, Sector 4</option>
+                     <option value="Cluj-Napoca">Cluj-Napoca</option>
+                     <option value="Timișoara">Timișoara</option>
+                     <option value="Iași">Iași</option>
+                     <option value="Constanța">Constanța</option>
+                     <option value="Brașov">Brașov</option>
+                     <option value="Sibiu">Sibiu</option>
+                     <option value="Craiova">Craiova</option>
+                     <option value="Oradea">Oradea</option>
+                     <option value="Galați">Galați</option>
+                     <option value="Ploiești">Ploiești</option>
+                     <option value="Arad">Arad</option>
+                     <option value="Brăila">Brăila</option>
+                     <option value="Pitești">Pitești</option>
+                     <option value="Bacău">Bacău</option>
+                     <option value="Târgu Mureș">Târgu Mureș</option>
+                     <option value="Baia Mare">Baia Mare</option>
+                  </select>
+               </div>
+               <div class="mb-3">
+                  <label for="imageUrl" class="form-label">Image Url</label>
+                  <input class="form-control" type="text" id="imageUrl" name="image">
+               </div>
+               <div>
+                  <label for="consultationPrice" class="form-label">Consultation Price (RON):</label>
+                  <input type="number" class="form-control" id="consultationPrice" name="consultationPrice" min="0"
+                     required>
+               </div>
+
+               <div>
+                  <label for="specialization" class="form-label">Specialization:</label>
+                  <select id="specialization" class="form-select" name="specialization" required>
+                     <option value="">Select a specialization</option>
+                     <option value="general">General Practice</option>
+                     <option value="surgery">Surgery</option>
+                     <option value="dentistry">Dentistry</option>
+                     <option value="exoticAnimals">Exotic Animals</option>
+                     <option value="emergency">Emergency Care</option>
+                     <option value="dermatology">Dermatology</option>
+                  </select>
+               </div>
+
+               <div>
+                  <label for="description" class="form-label">Description:</label>
+                  <textarea class="form-control" id="description" name="description" rows="5" required></textarea>
+               </div>
+               <br>
+               <button class="btn btn-secondary mb-3">Add Vet Place</button>
+            </form>
+         </div>
+      </div>
+   </div>
+
+
+   <!-- <footer>
+      <a class="btn btn-secondary" href="/vetplaces">Go Back</a>
+   </footer> -->
