@@ -13,7 +13,13 @@ const VetPlacesSchema = new Schema(
       specialization: {
          type: String,
          enum: ['general', 'surgery', 'dentistry', 'exoticAnimals', 'emergency', 'dermatology']
-      }
+      },
+      reviews: [
+         {
+            type: Schema.Types.ObjectId,
+            ref: 'Review'
+         }
+      ]
    }
 )
 

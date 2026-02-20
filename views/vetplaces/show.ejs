@@ -1,37 +1,82 @@
 <% layout('layout/boilerplate') %>
    <div class="row">
-      <div class="col-6 offset-3">
-         <div class="row">
-            <div class="col">
-               <h1>
-                  <%= vetplace.name %>
-               </h1>
-               <p class="text-muted">Location: <%= vetplace.location %>
-               </p>
-               <img src="<%= vetplace.image %>" alt="Vet Place Image" style="max-height: 400px;"
-                  class="rounded float-start">
-            </div>
-         </div>
-         <div class="row mt-3">
-            <div class="col">
-               <p class="text">
-                  Consultation price : <%= vetplace.consultationPrice %> RON
-               </p>
-            </div>
-         </div>
-         <div class="row mt-1">
-            <p class="text">
-               Specialization : <%= String(vetplace.specialization).charAt(0).toUpperCase() +
-                  String(vetplace.specialization).slice(1) %>
-            </p>
-         </div>
-         <div class="row mt-3 mb-3">
-            <div class="col d-flex gap-2">
-               <a class="btn btn-success" href="/vetplaces/<%=vetplace.id%>/edit">Edit</a>
-               <form action="/vetplaces/<%=vetplace.id%>?_method=DELETE" method="post">
-                  <button class="btn btn-danger">Delete</button>
+
+      <div class="col-6 ">
+         <div class="card mb-3">
+            <div class="card-body ">
+               <div class="row">
+                  <div class="col">
+                     <h1>
+                        <%= vetplace.name %>
+                     </h1>
+                     <p class="text-muted">Location: <%= vetplace.location %>
+                     </p>
+                     <img src="<%= vetplace.image %>" alt="Vet Place Image" style="max-height: 400px;"
+                        class="rounded float-start">
+                  </div>
+               </div>
+               <div class="row mt-3">
+                  <div class="col">
+                     <p class="text">
+                        Consultation price : <%= vetplace.consultationPrice %> RON
+                     </p>
+                  </div>
+               </div>
+               <div class="row mt-1">
+                  <p class="text">
+                     Specialization : <%= String(vetplace.specialization).charAt(0).toUpperCase() +
+                        String(vetplace.specialization).slice(1) %>
+                  </p>
+               </div>
+               <div class="row mt-3 mb-3">
+                  <div class="col d-flex gap-2">
+                     <a class="btn btn-success" href="/vetplaces/<%=vetplace.id%>/edit">Edit</a>
+                     <form action="/vetplaces/<%=vetplace.id%>?_method=DELETE" method="post">
+                        <button class="btn btn-danger">Delete</button>
+                     </form>
+                  </div>
+               </div>
+               <hr>
+               <h2>Leave a review</h2>
+               <form action="/vetplaces/<%=vetplace._id%>/reviews" method="post" novalidate class="validated-form">
+                  <div class="mb-3">
+                     <label for="rating" class="form-label">Rating</label>
+                     <input type="range" name="reviews[rating]" value="3" id="rating" min="1" max="5"
+                        class="form-range">
+                  </div>
+                  <div class="mb-3">
+                     <label for="body" class="form-label">Review Comment: </label>
+                     <textarea class="form-control" name="reviews[body]" value="reviews[body]" id="body" cols="30"
+                        rows="3" required></textarea>
+                  </div>
+                  <div class="mb-3">
+                     <button class="btn btn-secondary">Submit</button>
+                  </div>
                </form>
             </div>
          </div>
+      </div>
+
+      <div class="col-6">
+         <h2>Reviews ⭐</h2>
+         <hr>
+         <% for(let r of vetplace.reviews){ %>
+            <div class="card mb-3">
+               <div class="card-header">
+                  User5362367 added:
+               </div>
+               <div class="card-body">
+                  <h5 class="card-title">
+                     Rating <%= r.rating %>/5
+                  </h5>
+                  <p class="card-text">
+                     <%= r.body %>
+                  </p>
+                  <form action="/vetplaces/<%=vetplace._id%>/reviews/<%= r._id %>?_method=DELETE" method="post">
+                     <button class="btn-sm btn btn-danger">Delete</button>
+                  </form>
+               </div>
+            </div>
+            <% } %>
       </div>
    </div>
