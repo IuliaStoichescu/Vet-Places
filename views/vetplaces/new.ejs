@@ -3,10 +3,13 @@
       <div class="row">
          <h1 class="text-center">Add a new Vet Place!</h1>
          <div class="col-6 offset-3">
-            <form action="/vetplaces" method="POST">
+            <form action="/vetplaces" method="POST" novalidate class="validated-form">
                <div class="mb-3">
                   <label for="name" class="form-label">Clinic Name:</label>
                   <input type="text" id="name" name="name" class="form-control" required>
+                  <div class="valid-feedback">
+                     Looks good!
+                  </div>
                </div>
 
                <div class="mb-3">
@@ -34,10 +37,16 @@
                      <option value="Târgu Mureș">Târgu Mureș</option>
                      <option value="Baia Mare">Baia Mare</option>
                   </select>
+                  <div id="validationServer03Feedback" class="invalid-feedback">
+                     Please provide a valid city.
+                  </div>
                </div>
                <div class="mb-3">
                   <label for="imageUrl" class="form-label">Image Url</label>
-                  <input class="form-control" type="text" id="imageUrl" name="image">
+                  <input class="form-control" type="text" id="imageUrl" name="image" required>
+                  <div id="validationServer03Feedback" class="invalid-feedback">
+                     Please provide a valid image url.
+                  </div>
                </div>
                <div>
                   <label for="consultationPrice" class="form-label">Consultation Price (RON):</label>
@@ -68,7 +77,28 @@
          </div>
       </div>
    </div>
+   <script>
+      // Example starter JavaScript for disabling form submissions if there are invalid fields
+      (function () {
+         'use strict'
 
+         // Fetch all the forms we want to apply custom Bootstrap validation styles to
+         var forms = document.querySelectorAll('.validated-form')
+
+         // Loop over them and prevent submission
+         Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+               form.addEventListener('submit', function (event) {
+                  if (!form.checkValidity()) {
+                     event.preventDefault()
+                     event.stopPropagation()
+                  }
+
+                  form.classList.add('was-validated')
+               }, false)
+            })
+      })()
+   </script>
 
    <!-- <footer>
       <a class="btn btn-secondary" href="/vetplaces">Go Back</a>

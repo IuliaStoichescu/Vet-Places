@@ -7,6 +7,10 @@ const mongoose = require('mongoose');
 const Vetplace = require('./models/vetplaces');
 var morgan = require('morgan');
 const ejsMate = require('ejs-mate');
+const ExpressError = require('./utils/ExpressError');
+const catchAsync = require('./utils/catchAsync');
+const Joi = require('joi');
+
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
@@ -28,43 +32,72 @@ app.get('/', (req, res) => {
    res.render('home');
 })
 
-app.get('/vetplaces', async (req, res) => {
+app.get('/vetplaces', catchAsync(async (req, res) => {
    const allVetPlaces = await Vetplace.find({});
    res.render('vetplaces/index', { allVetPlaces });
-})
+}))
 
 app.get('/vetplaces/new', (req, res) => {
    res.render('vetplaces/new');
 })
 
-app.post('/vetplaces', async (req, res) => {
+app.post('/vetplaces', catchAsync(async (req, res, next) => {
    // res.send(req.body);
+   // if (!req.body) throw new ExpressError('Invalid Vet Place data!', 400);
+   const vetplaceSchema = Joi.object(
+      {
+         name: Joi.string().required(),
+         image: Joi.string().required().min(0),
+         location: Joi.string().required(),
+         consultationPrice: Joi.number().required(),
+         description: Joi.string().required(),
+         specialization: Joi.string().required(),
+      }
+   )
+   const { error } = vetplaceSchema.validate(req.body);
+   if (error) {
+      const msg = error.details.map(e => e.message).join('.');
+      throw new ExpressError(msg, 400)
+   }
    const vetplace = new Vetplace(req.body);
    await vetplace.save();
    res.redirect(`/vetplaces/${vetplace._id}`);
-})
+}))
 
-app.get('/vetplaces/:id', async (req, res) => {
+app.get('/vetplaces/:id', catchAsync(async (req, res) => {
    const { id } = req.params;
    const vetplace = await Vetplace.findById(id);
    res.render('vetplaces/show', { vetplace });
-})
+}))
 
-app.get('/vetplaces/:id/edit', async (req, res) => {
+app.get('/vetplaces/:id/edit', catchAsync(async (req, res) => {
    const vetplace = await Vetplace.findById(req.params.id);
    res.render('vetplaces/edit', { vetplace })
-})
+}))
 
-app.put('/vetplaces/:id/', async (req, res) => {
+app.put('/vetplaces/:id/', catchAsync(async (req, res) => {
    const updatedPlace = await Vetplace.findByIdAndUpdate(req.params.id, req.body, { runValidators: true, new: true });
    res.redirect(`/vetplaces/${updatedPlace._id}`)
-})
+}))
 
-app.delete('/vetplaces/:id/', async (req, res) => {
+app.delete('/vetplaces/:id/', catchAsync(async (req, res) => {
    await Vetplace.findByIdAndDelete(req.params.id);
    res.redirect('/vetplaces')
+}))
+
+app.all(/(.*)/, (req, res, next) => { //for every path
+   // res.send('404');
+   next(new ExpressError('Page Not Found', 404))
 })
 
+app.use((err, req, res, next) => {
+   const { status = 500 } = err;
+   if (!err.message) {
+      err.message = 'Something went wrong !'
+   }
+   res.status(status).render('error', { err });
+   // res.send('Something went wrong!');
+})
 
 // app.get('/makevetplace', async (req, res) => {
 //    const vetplace = new Vetplace({ name: "Pet Dream", location: "Timisoara" })
