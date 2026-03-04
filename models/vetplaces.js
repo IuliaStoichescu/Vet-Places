@@ -1,7 +1,7 @@
 const { Timestamp } = require('bson');
 const mongoose = require('mongoose');
 const { type } = require('node:os');
-const review = require('./review');
+const Review = require('./review');
 const Schema = mongoose.Schema;
 
 const VetPlacesSchema = new Schema(
@@ -26,7 +26,7 @@ const VetPlacesSchema = new Schema(
 
 VetPlacesSchema.post('findOneAndDelete', async function (doc) {//will have access to the doc that was deleted
    if (doc) {
-      await Review.remove({ //tthis is for deleting reviews when deleting a vet place
+      await Review.deleteMany({ //tthis is for deleting reviews when deleting a vet place
          _id: {
             $in: doc.reviews //the id is somewhere in the reviews
          }
