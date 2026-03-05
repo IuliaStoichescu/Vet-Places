@@ -14,6 +14,10 @@ const vetplacesRoute = require('./routes/vetplaces')
 const reviewsRoute = require('./routes/reviews')
 const session = require('express-session');
 const flash = require('connect-flash');
+const passport = require('passport');
+const localStrategy = require('passport-local');
+const User = require('./models/user.js');
+const usersRoute = require('./routes/users.js');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -39,6 +43,13 @@ const sessionConfig = {
 app.use(session(sessionConfig))
 app.use(flash());
 
+app.use(passport.initialize());
+app.use(passport.session());//for persistent login sessions
+passport.use(new localStrategy(User.authenticate()));
+
+passport.serializeUser(User.serializeUser());
+passport.deserializeUser(User.deserializeUser());
+
 mongoose.connect('mongodb://127.0.0.1:27017/vetPlaces')
    .then(() => {
       console.log("Succesfully Mongo connected to port 27017")
@@ -48,13 +59,20 @@ mongoose.connect('mongodb://127.0.0.1:27017/vetPlaces')
    })
 
 app.use((req, res, next) => {
+   res.locals.currentUser = req.user;//set the current user to the one that is logged in
    res.locals.success = req.flash('success'); //have access 
    res.locals.error = req.flash('error');
    next();
 })
 
+app.get('/fakeUser', async (req, res) => {
+   const user = new User({ email: 'iulist@gmail.com', username: 'iuli25' });
+   const newUser = await User.register(user, 'mypassword');
+})
+
 app.use("/vetplaces", vetplacesRoute);
 app.use("/vetplaces/:id/reviews", reviewsRoute);
+app.use("/", usersRoute);
 
 app.get('/', (req, res) => {
    res.render('home');

@@ -11,6 +11,10 @@ const VetPlacesSchema = new Schema(
       location: String,
       consultationPrice: Number,
       description: String,
+      author: {
+         tyle: Schema.Types.ObjectId,
+         ref: 'User'
+      },
       specialization: {
          type: String,
          enum: ['general', 'surgery', 'dentistry', 'exoticAnimals', 'emergency', 'dermatology']
