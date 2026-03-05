@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const { type } = require('node:os');
 const Review = require('./review');
 const Schema = mongoose.Schema;
-
+const User = require('./user');
 const VetPlacesSchema = new Schema(
    {
       name: String,
@@ -12,7 +12,7 @@ const VetPlacesSchema = new Schema(
       consultationPrice: Number,
       description: String,
       author: {
-         tyle: Schema.Types.ObjectId,
+         type: Schema.Types.ObjectId,
          ref: 'User'
       },
       specialization: {

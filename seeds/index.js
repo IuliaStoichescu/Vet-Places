@@ -30,6 +30,7 @@ const seedDB = async () => {
    for (let i = 0; i < places.length; i++) {
       const vetPlace = new Vetplace({
          ...places[i],
+         author: '69a93fb94262589a12a53d42',
          image: images[i]
       });
       await vetPlace.save();

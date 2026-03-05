@@ -17,6 +17,15 @@
                </div>
                <div class="row mt-3">
                   <div class="col">
+                     <b>
+                        <p class="text">
+                           Submitted by : <%= vetplace.author.username %>
+                        </p>
+                     </b>
+                  </div>
+               </div>
+               <div class="row mt-1">
+                  <div class="col">
                      <p class="text">
                         Consultation price : <%= vetplace.consultationPrice %> RON
                      </p>
@@ -28,31 +37,36 @@
                         String(vetplace.specialization).slice(1) %>
                   </p>
                </div>
-               <div class="row mt-3 mb-3">
-                  <div class="col d-flex gap-2">
-                     <a class="btn btn-success" href="/vetplaces/<%=vetplace.id%>/edit">Edit</a>
-                     <form action="/vetplaces/<%=vetplace.id%>?_method=DELETE" method="post">
-                        <button class="btn btn-danger">Delete</button>
-                     </form>
+               <% if(currentUser && vetplace.author.equals(currentUser._id)){ %>
+                  <div class="row mt-3 mb-3">
+                     <div class="col d-flex gap-2">
+                        <a class="btn btn-success" href="/vetplaces/<%=vetplace.id%>/edit">Edit</a>
+                        <form action="/vetplaces/<%=vetplace.id%>?_method=DELETE" method="post">
+                           <button class="btn btn-danger">Delete</button>
+                        </form>
+                     </div>
                   </div>
-               </div>
-               <hr>
-               <h2>Leave a review</h2>
-               <form action="/vetplaces/<%=vetplace._id%>/reviews" method="post" novalidate class="validated-form">
-                  <div class="mb-3">
-                     <label for="rating" class="form-label">Rating</label>
-                     <input type="range" name="reviews[rating]" value="3" id="rating" min="1" max="5"
-                        class="form-range">
-                  </div>
-                  <div class="mb-3">
-                     <label for="body" class="form-label">Review Comment: </label>
-                     <textarea class="form-control" name="reviews[body]" value="reviews[body]" id="body" cols="30"
-                        rows="3" required></textarea>
-                  </div>
-                  <div class="mb-3">
-                     <button class="btn btn-secondary">Submit</button>
-                  </div>
-               </form>
+                  <% } %>
+                     <% if(currentUser){ %>
+                        <hr>
+                        <h2>Leave a review</h2>
+                        <form action="/vetplaces/<%=vetplace._id%>/reviews" method="post" novalidate
+                           class="validated-form">
+                           <div class="mb-3">
+                              <label for="rating" class="form-label">Rating</label>
+                              <input type="range" name="reviews[rating]" value="3" id="rating" min="1" max="5"
+                                 class="form-range">
+                           </div>
+                           <div class="mb-3">
+                              <label for="body" class="form-label">Review Comment: </label>
+                              <textarea class="form-control" name="reviews[body]" value="reviews[body]" id="body"
+                                 cols="30" rows="3" required></textarea>
+                           </div>
+                           <div class="mb-3">
+                              <button class="btn btn-secondary">Submit</button>
+                           </div>
+                        </form>
+                        <% } %>
             </div>
          </div>
       </div>
@@ -63,7 +77,7 @@
          <% for(let r of vetplace.reviews){ %>
             <div class="card mb-3">
                <div class="card-header">
-                  User5362367 added:
+                  <%= r.author.username %> added:
                </div>
                <div class="card-body">
                   <h5 class="card-title">
@@ -72,9 +86,11 @@
                   <p class="card-text">
                      <%= r.body %>
                   </p>
-                  <form action="/vetplaces/<%=vetplace._id%>/reviews/<%= r._id %>?_method=DELETE" method="post">
-                     <button class="btn-sm btn btn-danger">Delete</button>
-                  </form>
+                  <% if(currentUser && r.author.equals(currentUser._id)){ %>
+                     <form action="/vetplaces/<%=vetplace._id%>/reviews/<%= r._id %>?_method=DELETE" method="post">
+                        <button class="btn-sm btn btn-danger">Delete</button>
+                     </form>
+                     <% } %>
                </div>
             </div>
             <% } %>
