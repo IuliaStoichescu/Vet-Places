@@ -1,5 +1,10 @@
+if (process.env.NODE_ENV !== 'production') {
+   require('dotenv').config();
+}
+
 const express = require('express');
 const app = express();
+app.set('query parser', 'extended');
 const path = require('path');
 const PORT = 3000;
 const methodOverride = require('method-override');
@@ -18,6 +23,8 @@ const passport = require('passport');
 const localStrategy = require('passport-local');
 const User = require('./models/user.js');
 const usersRoute = require('./routes/users.js');
+const sanitizeV5 = require('./utils/mongoSanitizeV5.js');
+const helmet = require('helmet');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -29,23 +36,35 @@ app.use(express.json());
 app.use(methodOverride('_method'));
 // app.use(express.static('public'))
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(express.static(path.join(__dirname, 'assets')));
+app.use(sanitizeV5({ replaceWith: '_' }));
+// app.use(mongoSanitize());
 
 const sessionConfig = {
+   name:'sess',
    secret: 'mysecret',
    resave: false,
    saveUninitialized: true,
    cookie: {
       httpOnly: true,
+      // secure:true,
       expires: Date.now() + 1000 * 60 * 60 * 24 * 7,//expire in a week
       maxAge: 1000 * 60 * 60 * 24 * 7
    }
 }
 app.use(session(sessionConfig))
 app.use(flash());
-
+app.use(helmet());
 app.use(passport.initialize());
 app.use(passport.session());//for persistent login sessions
 passport.use(new localStrategy(User.authenticate()));
+
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    xDownloadOptions: false,
+  }),
+);
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());

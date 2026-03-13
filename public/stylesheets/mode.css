@@ -1,0 +1,112 @@
+:root{
+  --base-color: #ffffff;
+  --base-variant: #ffffff;
+  --text-color: #212529;
+  --secondary-text: #6c757d;
+  --primary-color: #0d6efd;
+  --accent-color: #0d6efd;
+  --navbar: #f8f9fa;
+}
+#theme-switch{
+   height: 40px;
+   width: 40px;
+   border-radius: 50%;
+   background-color: rgb(218, 215, 215);
+   border: 1px solid rgb(218, 215, 215);
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+.darkmode{
+  --base-color: #787777;
+  --base-variant: #474748;
+  --text-color: #e6e6e6;
+  --secondary-text: #a6a6a6;
+  --primary-color: #2d2d30;
+  --accent-color: #007acc;
+  --navbar: #2e2e2f;
+}
+
+.navbar,.footer{
+   background-color: var(--navbar) !important;
+   color: var(--navbar);
+}
+
+body{
+   background-color: var(--base-color);
+}
+h1,.nav-link,h2,.form-label,.card-header{
+color: var(--text-color);
+}
+.card,.row,.col,.card-body,.card-text,.col-md-4,.col-md-8{
+   background-color: var(--base-variant) !important;
+}
+
+/* .card .row, .card .row .col-md-4,
+.card .row .col-md-8{
+   background-color: var(--base-variant) !important;
+} */
+
+.auth{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+}
+
+.login-box{
+  width: 100%;
+  max-width: 500px;
+  background-color: var(--base-variant);
+   border: 1px solid teal;
+  border-radius: 20px;
+  padding: 40px;
+}
+
+.new-box{
+   width: 100%;
+  max-width: 900px;
+  background-color: var(--base-variant);
+   border: 1px solid teal;
+  border-radius: 20px;
+  padding: 40px;
+}
+
+.login-box h1,
+.login-box label{
+  color: var(--text-color);
+}
+
+.nav-link,
+.navbar-brand,
+.card h5,
+.card p,
+.card a{
+   color: var(--text-color) !important;
+}
+
+
+.card h5,p,a{
+   color: var(--text-color);
+}
+
+.navbar-nav,.container-fluid{
+   gap: 20px;
+}
+
+#theme-switch svg:last-child{
+   display: none;
+}
+
+.darkmode #theme-switch svg:first-child{
+   display: none;
+}
+
+.darkmode #theme-switch svg:last-child{
+   display: block;
+}
+
+.darkmode #theme-switch{
+   background-color:  rgb(91, 87, 87);
+}

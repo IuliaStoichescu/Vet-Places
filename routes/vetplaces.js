@@ -7,6 +7,10 @@ const Review = require('../models/review')
 const { joiSchema, reviewSchema } = require('../validatingSchemas.js')
 const isLoggedIn = require('../logMiddleware.js');
 const vetplaces = require('../controllers/vetplaces.js');
+const { storage } = require('../cloudinary');
+
+const multer = require('multer')
+const upload = multer({ storage })
 
 const validateVetPlaces = (req, res, next) => {
 
@@ -32,13 +36,16 @@ const isAuthor = async (req, res, next) => {
 
 router.route('/')
    .get(catchAsync(vetplaces.index))
-   .post(isLoggedIn, validateVetPlaces, catchAsync(vetplaces.createVet));
+   .post(isLoggedIn, upload.array('image', 5), validateVetPlaces, catchAsync(vetplaces.createVet));
+// .post(upload.array('image'), (req, res) => {
+//req.body, req.files
+// })
 
 router.get('/new', isLoggedIn, vetplaces.new)
 
 router.route('/:id')
    .get(catchAsync(vetplaces.showVet))
-   .put(isLoggedIn, isAuthor, validateVetPlaces, catchAsync(vetplaces.renderEditForm))
+   .put(isLoggedIn, isAuthor, upload.array('image', 5), validateVetPlaces, catchAsync(vetplaces.renderEditForm))
    .delete(isLoggedIn, isAuthor, catchAsync(vetplaces.deleteVet));
 
 

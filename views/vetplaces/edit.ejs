@@ -1,9 +1,10 @@
 <% layout('layout/boilerplate') %>
-   <div class="container">
-      <div class="row">
-         <h1 class="text-center">Edit Vet Place!</h1>
-         <div class="col-6 offset-3">
-            <form action="/vetplaces/<%= vetplace._id %>?_method=PUT" method="POST" novalidate class="validated-form">
+    <div class="auth">
+  <div class="new-box">
+         <h1 class="text-center mt-3">Edit Vet Place!</h1>
+         <!-- <div class="col-6 offset-3"> -->
+            <form action="/vetplaces/<%= vetplace._id %>?_method=PUT" method="POST" novalidate class="validated-form"
+               enctype="multipart/form-data">
                <div class="mb-3">
                   <label for="name" class="form-label">Clinic Name:</label>
                   <input type="text" id="name" name="name" class="form-control" value="<%=vetplace.name%>" required>
@@ -36,9 +37,26 @@
                   </select>
                </div>
                <div class="mb-3">
-                  <label for="imageUrl" class="form-label">Image Url</label>
-                  <input class="form-control" type="text" id="imageUrl" name="image" value="<%= vetplace.image %>"
-                     required>
+                  <label for="formFile" class="form-label">Add more images</label>
+                  <input class="form-control" type="file" id="formFile" name="image" multiple>
+               </div>
+               <div class="row">
+                  <div class="mb-3">
+                     <% vetplace.images.forEach((img,i)=> {%>
+                        <div class="row">
+                           <div class="col">
+                              <img src="<%= img.url %>" class="img-thumbnail" alt=""
+                                 style="height: 100px; width: 30%; object-fit: cover;">
+                              <div class="form-check-inline">
+                                 <input type="checkbox" id="image<%= i %>" name="deleteImages[]"
+                                    value="<%= img.filename %>">
+                                 <label for="image<%= i %>">Delete Image</label>
+                              </div>
+                           </div>
+                        </div>
+
+                        <% }) %>
+                  </div>
                </div>
                <div>
                   <label for="consultationPrice" class="form-label">Consultation Price (RON):</label>
@@ -67,6 +85,6 @@
                <br>
                <button class="btn btn-secondary mb-3">Change Vet Place</button>
             </form>
-         </div>
+         <!-- </div> -->
       </div>
    </div>

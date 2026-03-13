@@ -1,14 +1,21 @@
 <% layout('layout/boilerplate') %>
-   <h1>My Vet Places!</h1>
+<div id="map" style="width: 100%;height: 500px;"></div>
+   <h1 style="text-align: center; text-decoration: underline;" class="mt-5 mb-5">Veterinary Clinics</h1>
    <!-- <div>
       <a class="btn btn-secondary" href="/vetplaces/new">Add a Vet place</a>
    </div> -->
+   <% if(allVetPlaces.length){ %>
    <ul>
       <% for(let v of allVetPlaces) {%>
-         <div class="card mb-3">
+         <div class="card mb-3 mx-auto rounded shadow p-3" style="width: 80%;">
             <div class="row bg-light">
                <div class="col-md-4">
-                  <img class="img-fluid" alt="" srcset="<%= v.image %>">
+                  <% if(v.images && v.images.length){ %>
+                     <img src="<%= v.images[0].url %>" alt="" class="img-fluid">
+                     <% } else { %>
+                        <img src="/defaultVet.jpg" alt="" class="img-fluid">
+                        <% } %>
+
                </div>
                <div class="col-md-8">
                   <div class="card-body">
@@ -32,3 +39,11 @@
          </div>
          <% } %>
    </ul>
+   <% } else{ %>
+      <h3 style="text-align: center;" class="mb-5">For now, there were no Veterinary Clinics added</h3>
+      <% } %>
+   <script>
+   const mapToken = '<%=process.env.MAPBOX_TOKEN %>';
+   const allVetplaces = {features:<%- JSON.stringify(allVetPlaces) %>};
+   </script>
+   <script src="/javascripts/clusterMap.js"></script>

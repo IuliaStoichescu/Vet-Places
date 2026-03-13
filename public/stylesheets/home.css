@@ -1,0 +1,159 @@
+body {
+   background-color: grey;
+   color: white;
+   /* background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('https://plus.unsplash.com/premium_photo-1661942274165-00cc8d55a93f?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+   background-size: cover;
+   background-position: center; */
+}
+
+body {
+   margin: 0;
+   color: white;
+   overflow-x: hidden;
+}
+
+.background-slider {
+   position: fixed;
+   top: 0;
+   left: 0;
+   width: 100%;
+   height: 100%;
+   z-index: -2;
+}
+
+.slide {
+   position: absolute;
+   width: 100%;
+   height: 100%;
+   background-size: cover;
+   background-position: center;
+   opacity: 0;
+   animation: fadeSlider 15s infinite;
+}
+
+.slide:nth-child(1) {
+   background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+      url('https://plus.unsplash.com/premium_photo-1661942274165-00cc8d55a93f?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+   animation-delay: 0s;
+}
+
+.slide:nth-child(2) {
+   background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+      url('https://plus.unsplash.com/premium_photo-1661954422066-36639b6f13b5?q=80&w=1738&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+   animation-delay: 5s;
+}
+
+.slide:nth-child(3) {
+   background-image: linear-gradient(rgba(0, 0, 0, 0.55), rgba(0, 0, 0, 0.55)),
+      url('https://plus.unsplash.com/premium_photo-1663041606868-bf51840308b6?q=80&w=1740&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D');
+   animation-delay: 10s;
+}
+
+@keyframes fadeSlider {
+   0% {
+      opacity: 0;
+   }
+
+   8% {
+      opacity: 1;
+   }
+
+   25% {
+      opacity: 1;
+   }
+
+   33% {
+      opacity: 0;
+   }
+
+   100% {
+      opacity: 0;
+   }
+}
+
+.container-fluid {
+   max-width: 80vw;
+   height: 8vh;
+}
+
+.row {
+   height: 80vh;
+}
+
+h1,
+p {
+   text-align: center;
+   font-size: medium;
+}
+
+h1 {
+   font-size: 50px;
+}
+
+.btn-container {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+}
+
+/* From Uiverse.io by Allyhere */
+.home-btn {
+
+   --clr-font-main: hsla(0 0% 20% / 100);
+   --btn-bg-1: hsla(194 100% 69% / 1);
+   --btn-bg-2: hsla(217 100% 56% / 1);
+   --btn-bg-color: hsla(360 100% 100% / 1);
+   --radii: 0.5em;
+   cursor: pointer;
+   padding: 0.9em 1.4em;
+   min-width: 80px;
+   min-height: 40px;
+   font-size: var(--size, 1rem);
+   font-weight: 500;
+   transition: 0.8s;
+   background-size: 280% auto;
+   background-image: linear-gradient(325deg,
+         var(--btn-bg-2) 0%,
+         var(--btn-bg-1) 55%,
+         var(--btn-bg-2) 90%);
+   border: none;
+   border-radius: var(--radii);
+   color: var(--btn-bg-color);
+   box-shadow:
+      0px 0px 20px rgba(71, 184, 255, 0.5),
+      0px 5px 5px -1px rgba(58, 125, 233, 0.25),
+      inset 4px 4px 8px rgba(175, 230, 255, 0.5),
+      inset -4px -4px 8px rgba(19, 95, 216, 0.35);
+}
+
+.home-btn:hover {
+   background-position: right top;
+}
+
+.home-btn:is(:focus, :focus-visible, :active) {
+   outline: none;
+   box-shadow:
+      0 0 0 3px var(--btn-bg-color),
+      0 0 0 6px var(--btn-bg-2);
+}
+
+.nav-link {
+   padding: 0.25rem 0;
+   color: grey;
+   margin-left: 1rem;
+   transition: 1s;
+   border-top: 0.15rem solid transparent;
+   border-bottom: 0.15rem solid transparent;
+}
+
+.nav-link:hover {
+   border-top: solid white;
+   border-bottom: solid white;
+   color: azure;
+}
+
+@media (prefers-reduced-motion: reduce) {
+   .home-btn {
+      transition: linear;
+   }
+}
