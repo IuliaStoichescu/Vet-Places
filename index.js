@@ -24,7 +24,7 @@ const localStrategy = require('passport-local');
 const User = require('./models/user.js');
 const usersRoute = require('./routes/users.js');
 const sanitizeV5 = require('./utils/mongoSanitizeV5.js');
-const helmet = require('helmet');
+// const helmet = require('helmet');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -54,17 +54,17 @@ const sessionConfig = {
 }
 app.use(session(sessionConfig))
 app.use(flash());
-app.use(helmet());
+// app.use(helmet());
 app.use(passport.initialize());
 app.use(passport.session());//for persistent login sessions
 passport.use(new localStrategy(User.authenticate()));
 
-app.use(
-  helmet({
-    contentSecurityPolicy: false,
-    xDownloadOptions: false,
-  }),
-);
+// app.use(
+//   helmet({
+//     contentSecurityPolicy: false,
+//     xDownloadOptions: false,
+//   }),
+// );
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
