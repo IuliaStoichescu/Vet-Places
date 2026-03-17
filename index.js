@@ -85,13 +85,13 @@ passport.use(new localStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
 // 'mongodb://127.0.0.1:27017/vetPlaces'
-mongoose.connect(db_url)
-   .then(() => {
-      console.log("Succesfully Mongo connected to port 27017")
-   })
-   .catch(err => {
-      console.log("Oh no !! Error: ", err);
-   })
+// mongoose.connect(db_url)
+//    .then(() => {
+//       console.log("Succesfully Mongo connected to port 27017")
+//    })
+//    .catch(err => {
+//       console.log("Oh no !! Error: ", err);
+//    })
 
 app.use((req, res, next) => {
    res.locals.currentUser = req.user;//set the current user to the one that is logged in
@@ -134,6 +134,13 @@ app.use((err, req, res, next) => {
 //    res.send(vetplace);
 // })
 
-app.listen(PORT, () => {
-   console.log(`Server is running on port ${PORT}`);
-});
+mongoose.connect(db_url)
+   .then(() => {
+      console.log("Successfully connected to MongoDB");
+      app.listen(PORT, '0.0.0.0', () => {
+         console.log(`Server is running on port ${PORT}`);
+      });
+   })
+   .catch(err => {
+      console.log("Mongo connection error:", err);
+   });
