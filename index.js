@@ -24,7 +24,10 @@ const localStrategy = require('passport-local');
 const User = require('./models/user.js');
 const usersRoute = require('./routes/users.js');
 const sanitizeV5 = require('./utils/mongoSanitizeV5.js');
+const db_url = process.env.DB_URL;
 // const helmet = require('helmet');
+
+const { MongoStore } = require('connect-mongo');
 
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
@@ -40,9 +43,22 @@ app.use(express.static(path.join(__dirname, 'assets')));
 app.use(sanitizeV5({ replaceWith: '_' }));
 // app.use(mongoSanitize());
 
+const store = MongoStore.create({
+    mongoUrl: db_url,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: process.env.STORE_SECRET
+    }
+});
+
+store.on("error",function(e){
+   console.log("Store Error",e);
+})
+
 const sessionConfig = {
+   store,
    name:'sess',
-   secret: 'mysecret',
+   secret: process.env.SESSION_SECRET,
    resave: false,
    saveUninitialized: true,
    cookie: {
@@ -68,8 +84,8 @@ passport.use(new localStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
-
-mongoose.connect('mongodb://127.0.0.1:27017/vetPlaces')
+// 'mongodb://127.0.0.1:27017/vetPlaces'
+mongoose.connect(db_url)
    .then(() => {
       console.log("Succesfully Mongo connected to port 27017")
    })

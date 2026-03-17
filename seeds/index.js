@@ -6,7 +6,7 @@ const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAPBOX_TOKEN;
 const geocoder = mbxGeocoding({ accessToken: mapToken });
 
-mongoose.connect('mongodb://127.0.0.1:27017/vetPlaces')
+mongoose.connect(process.env.DB_URL)
    .then(() => {
       console.log("Succesfully Mongo connected to port 27017")
    })
