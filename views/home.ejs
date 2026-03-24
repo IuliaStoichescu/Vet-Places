@@ -22,24 +22,24 @@
       <div class="slide"></div>
       <div class="slide"></div>
    </div>
-   <nav class="navbar navbar-expand-lg ">
+   <nav class="navbar navbar-expand-lg navbar-dark">
       <div class="container-fluid">
          <h2>VetHub</h2>
          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-         </button>
+      aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
          <div class="collapse navbar-collapse" id="navbarNav">
-            <div class="navbar-nav ms-auto">
-               <% if(!currentUser) {%>
-                  <a class="nav-link" href="/vetplaces">Vet Places</a>
-                  <a class="nav-link" href="/login">LogIn</a>
-                  <a class="nav-link" href="/register">Register</a>
-                  <% }else{ %>
-                     <a class="nav-link" href="/vetplaces">Vet Places</a>
-                     <a class="nav-link" href="/logout">LogOut</a>
-                     <% } %>
-            </div>
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link" href="/vetplaces">Vet Places</a>
+        <% if(!currentUser) { %>
+          <a class="nav-link" href="/login">LogIn</a>
+          <a class="nav-link" href="/register">Register</a>
+        <% } else { %>
+          <a class="nav-link" href="/logout">LogOut</a>
+        <% } %>
+      </div>
+    </div>
          </div>
       </div>
    </nav>

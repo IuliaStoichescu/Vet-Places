@@ -1,6 +1,7 @@
 require('dotenv').config();
 const mongoose = require('mongoose');
 const Vetplace = require('../models/vetplaces');
+const User = require('../models/user')
 const places = require('./places');
 const mbxGeocoding = require('@mapbox/mapbox-sdk/services/geocoding');
 const mapToken = process.env.MAPBOX_TOKEN;
@@ -32,6 +33,7 @@ const imagesU = [
 const seedDB = async () => {
    await Vetplace.deleteMany({}); //deletes the contents of the database
    // const vetData = await Vetplace.insertMany(places);
+   const admin = await User.findOne({ username: 'iuli' });
    for (let i = 0; i < places.length; i++) {
       places[i].location += ', '+ places[i].street;
       const geoData = await geocoder.forwardGeocode({
@@ -42,7 +44,7 @@ const seedDB = async () => {
       const vetPlace = new Vetplace({
          geometry: geoData.body.features[0].geometry,
          ...places[i],
-         author: '69a93fb94262589a12a53d42',
+         author: admin._id,
          images: [{
             url: imagesU[i]
          }]
